@@ -5,18 +5,19 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>2.2.6.RELEASE</version>
+		<version>2.0.8.RELEASE</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.example</groupId>
-	<artifactId>demo</artifactId>
+	<artifactId>imip</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<packaging>war</packaging>
-	<name>demo</name>
-	<description>Demo project for Spring Boot</description>
+	<packaging>jar</packaging>
+	<name>imip</name>
+	<description>importip project</description>
 
 	<properties>
 		<java.version>1.8</java.version>
+		<docker.image.prefix>importip</docker.image.prefix>
 	</properties>
 
 	<dependencies>
@@ -31,13 +32,13 @@
 			<artifactId>lombok</artifactId>
 			<version>1.18.12</version>
 		</dependency>
-		<dependency>
+	<!--	<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-tomcat</artifactId>
-			<!--打包的时候可以不用包进去，别的设施会提供。事实上该依赖理论上可以参与编译，测试，运行等周期。
-                相当于compile，但是打包阶段做了exclude操作-->
+			&lt;!&ndash;打包的时候可以不用包进去，别的设施会提供。事实上该依赖理论上可以参与编译，测试，运行等周期。
+                相当于compile，但是打包阶段做了exclude操作&ndash;&gt;
 			<scope>provided</scope>
-		</dependency>
+		</dependency>-->
 
 		<dependency>
 			<groupId>javax.servlet</groupId>
@@ -49,30 +50,8 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
-			<!-- 移除嵌入式tomcat插件 -->
-			<exclusions>
-				<exclusion>
-					<groupId>org.springframework.boot</groupId>
-					<artifactId>spring-boot-starter-tomcat</artifactId>
-				</exclusion>
-			</exclusions>
 		</dependency>
-		<dependency>
-			<groupId>org.projectlombok</groupId>
-			<artifactId>lombok</artifactId>
-			<optional>true</optional>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-test</artifactId>
-			<scope>test</scope>
-			<exclusions>
-				<exclusion>
-					<groupId>org.junit.vintage</groupId>
-					<artifactId>junit-vintage-engine</artifactId>
-				</exclusion>
-			</exclusions>
-		</dependency>
+
 	</dependencies>
 
 
@@ -92,8 +71,39 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
-
 			</plugin>
+
+	<!--		<plugin>
+				<groupId>com.spotify</groupId>
+				<artifactId>docker-maven-plugin</artifactId>
+				<version>0.4.13</version>
+				<configuration>
+					<forceTags>true</forceTags>
+					<pushImageTag>true</pushImageTag>
+					&lt;!&ndash;指定生成的镜像名 该处修改为自己想要生成的镜像名称&ndash;&gt;
+					<imageName>myImages</imageName>
+					&lt;!&ndash;指定标签 &ndash;&gt;
+					<imageTags>
+						<imageTag>latest</imageTag>
+					</imageTags>
+					&lt;!&ndash; 指定 Dockerfile 路径 &ndash;&gt;
+					<dockerDirectory>${project.basedir}</dockerDirectory>
+					&lt;!&ndash;指定远程 docker api地址 &ndash;&gt;
+					<dockerHost>https://123.57.68.247:2375</dockerHost>
+					&lt;!&ndash;指定pem证书文件路径地址 &ndash;&gt;
+					<dockerCertPath>${project.basedir}/src/main/pem</dockerCertPath>
+					&lt;!&ndash; 这里是复制 jar 包到 docker 容器指定目录配置 &ndash;&gt;
+					<resources>
+						<resource>
+							<targetPath>/</targetPath>
+							&lt;!&ndash;jar 包所在的路径  此处配置的 即对应 target 目录 &ndash;&gt;
+							<directory>${project.build.directory}</directory>
+							&lt;!&ndash; 需要包含的 jar包 ，这里对应的是 Dockerfile中添加的文件名 &ndash;&gt;
+							<include>${project.build.finalName}.jar</include>
+						</resource>
+					</resources>
+				</configuration>
+			</plugin>-->
 
 		</plugins>
 		<finalName>ipDetails</finalName>
